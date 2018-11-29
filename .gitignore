@@ -1,0 +1,14 @@
+*swp
+*,v
+*.gz
+igp_*
+*~
+*.jslint
+pub/System/JQAutoLogoutContrib/autologout.js
+/JQAutoLogoutContrib.md5
+/JQAutoLogoutContrib.sha1
+/JQAutoLogoutContrib.tgz
+/JQAutoLogoutContrib.txt
+/JQAutoLogoutContrib.zip
+/JQAutoLogoutContrib_installer
+/JQAutoLogoutContrib_installer.pl

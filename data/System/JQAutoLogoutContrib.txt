@@ -1,0 +1,74 @@
+%META:TOPICINFO{author="micha" comment="reprev" date="1543502605" format="1.1" reprev="2" version="2"}%
+---+!! %TOPIC%
+%$SHORTDESCRIPTION%
+
+%TOC%
+
+---++ Description
+
+This extension will allow to automatically log out users after a certain period of time that they have been idle on the website.
+After a certain timeout a popup will be displayed warning the user that they will be logged out automatically after another 10 seconds.
+
+%IMAGE{"screenshot.png" align="center"}%
+
+---++ Settings
+
+To enable the plugin you will have to add it to the =DefaultPlugin= settings of !JQueryPlugin so that it is loaded on every page.
+
+<verbatim class="pl">
+$Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = 'autologout';
+</verbatim>
+
+Alternatively, you can add it to the current page using:
+
+<verbatim class="tml">
+%JQREQUIRE{"autologout"}%
+</verbatim>
+
+You may either put this in one of your skin templates or in a topic text.
+
+The plugin may be configured by preference settings. Defaults are:
+
+<verbatim class="tml">
+   * Set AUTOLOGOUT_TIMEOUT = 900
+   * Set AUTOLOGOUT_COUNTDOWN = 10
+   * Set AUTOLOGOUT_URL = %SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?logout=1
+</verbatim>
+
+The jQuery plugin understands a few more options as can be seen in the =autologout.tmpl= file.
+
+| *Parameter* | *Description* | *Default* |
+| =data-idle-timeout= | seconds after which the warning dialog will pop up | =%<nop>AUTOLOGOUT_TIMEOUT%= or 900 if undefined (15 minutes) |
+| =data-countdown= | number of seconds displayed in the logout popup warning after which the user will be logged out | =%<nop>AUTOLOGOUT_COUNTDOWN%= or 10 otherwise |
+| =data-logout-url= | the url which is used to log out the user; this may be any location on your Foswiki but must have the =logout=1= url parameter attached to it to perform the actual logout procedure | =%<nop>AUTOLOGOUT_URL%= or =%<nop>SCRIPTURLPATH{"view"}%/%<nop>WEB%/%<nop>TOPIC%?logout=1= otherwise |
+| =data-enable-if= | this is a jQuery selector that must be found on a page to start the auto logout process | =.natViewBody, .natBodyAuthenticated, body.patternViewPage, body.foswikiLoggedIn= (covers !NatSkin and !PatternSkin) |
+| =data-disable-if= | this is a jQuery selector that must _NOT_ be found on a page or otherwise the auto logout process is supressed | =body.foswikiGuest, .natBodyNotAuthenticated= (covers !NatSkin and !PatternSkin) |
+| =data-events= | list of (space-separated) events that will restart the logout timer | =click mousemove scroll keypress= |
+
+<div class="foswikiHelp">
+Note that a single sign on login manager might log you in right after having you logged out temporarily. You might need to configure =AUTOLOGOUT_URL= to a location that does not require authentication again.
+</div>
+
+---++ Installation Instructions
+
+%$INSTALL_INSTRUCTIONS%
+
+---++ Dependencies
+%$DEPENDENCIES%
+
+---++ Change History
+
+%TABLE{columnwidths="7em" tablewidth="100%"}%
+| 29 Nov 2018 | initial release |
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="Michael Daum"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Description" title="Description" value=""}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2018, MichaelDaum, All Rights Reserved"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
+%META:FILEATTACHMENT{name="screenshot.png" attachment="screenshot.png" attr="" comment="" date="1543502575" size="12712" user="micha" version="1"}%

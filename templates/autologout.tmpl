@@ -1,0 +1,13 @@
+%TMPL:DEF{"autologout::dialog"}%<div class="jqUIDialog jqAutoLogout $zone $id clearfix" title="%MAKETEXT{"Automatic Logout"}%" style="display:none" %TMPL:P{"autologout::params"}%>
+%JQICON{"fa-signing" style="font-size:300%; float:left; margin:0 0.5em 0 0"}%
+%MAKETEXT{"You have been idle for some time. You will be logged out soon."}%
+<p class='jqAutoLogoutCounter foswikiCenter' style='font-weight:bold'></p>
+</div>%TMPL:END%
+
+%TMPL:DEF{"autologout::params"}%data-modal="true" data-close-on-escape="true" data-idle-timeout="%TMPL:P{"autologout::timeout"}%" data-countdown="%TMPL:P{"autologout::countdown"}%" data-logout-url="%TMPL:P{"autologout::url"}%" data-enable-if="%TMPL:P{"autologout::enable"}%" data-disable-if="%TMPL:P{"autologout::disable"}%"%TMPL:END%
+
+%TMPL:DEF{"autologout::enable"}%.natViewBody, .natBodyAuthenticated, body.patternViewPage, body.foswikiLoggedIn%TMPL:END%
+%TMPL:DEF{"autologout::disable"}%body.foswikiGuest, .natBodyNotAuthenticated%TMPL:END%
+%TMPL:DEF{"autologout::timeout"}%%AUTOLOGOUT_TIMEOUT{default="900"}%%TMPL:END%
+%TMPL:DEF{"autologout::countdown"}%%AUTOLOGOUT_COUNTDOWN{default="10"}%%TMPL:END%
+%TMPL:DEF{"autologout::url"}%%AUTOLOGOUT_URL{default="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?logout=1"}%%TMPL:END%
