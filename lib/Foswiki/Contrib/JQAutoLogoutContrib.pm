@@ -20,8 +20,8 @@ use warnings;
 
 use Foswiki::Func ();
 
-our $VERSION = '1.00';
-our $RELEASE = '29 Nov 2018';
+our $VERSION = '1.01';
+our $RELEASE = '07 Dec 2018';
 our $SHORTDESCRIPTION = 'Log out idle user after a certain period of time';
 our $NO_PREFS_IN_TOPIC = 1;
 

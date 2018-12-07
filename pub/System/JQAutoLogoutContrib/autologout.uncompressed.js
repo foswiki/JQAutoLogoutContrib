@@ -1,5 +1,5 @@
 /*
- * AutoLogout 
+ * AutoLogout 1.01
  *
  * Copyright (c) 2018 Michael Daum https://michaeldaumconsulting.com
  *
@@ -18,7 +18,8 @@
     disableIf: null,
     idleTimeout: 900, // 15 minutes
     countdown: 10,
-    logoutUrl: null 
+    logoutUrl: null,
+    localStorageId: "jqAutoLogout.startTime"
   };
 
   // The actual plugin constructor
@@ -83,8 +84,9 @@
   AutoLogout.prototype.tickCountdown = function (val) {
     var self = this;
 
-    if (self.idleTimer) {
+    if (self.idleTimer || self.getIdleTime() < self.opts.idleTimeout) {
       //console.log("countdown aborted");
+      self.elem.dialog("close");
       return; // abort
     }
 
@@ -106,10 +108,43 @@
     self.stopTimer();
 
     if (self.isEnabled()) { 
+
+      // remember when this timer started
+      self.setStartTime();
+
       self.idleTimer = setTimeout(function() {
-        self.openDialog();
+        if (self.getIdleTime() >= self.opts.idleTimeout) {
+          self.openDialog();
+        } else {
+          self.startTimer();
+        }
       }, self.opts.idleTimeout * 1000);
     }
+  };
+
+  AutoLogout.prototype.setStartTime = function() {
+    var self = this;
+
+    localStorage.setItem(self.opts.localStorageId, Date.now());
+  };
+
+  AutoLogout.prototype.getStartTime = function() {
+    var self = this, startTime;
+
+    startTime = localStorage.getItem(self.opts.localStorageId);
+
+    if (typeof(startTime) !== 'string') {
+      //console.log("no idle start time");
+      return 0;
+    }
+
+    return parseInt(startTime, 10)
+  };
+
+  AutoLogout.prototype.getIdleTime = function() {
+    var self = this;
+
+    return Math.floor((Date.now() - self.getStartTime()) / 1000);
   };
 
   AutoLogout.prototype.stopTimer = function () {
@@ -126,13 +161,13 @@
 
     //console.log("redirecting to ",self.opts.logoutUrl);
     window.location.href = self.opts.logoutUrl;
+    localStore.removeItem(self.opts.localStorageId);
   };
 
   AutoLogout.prototype.openDialog = function() {
     var self = this;
 
     self.stopTimer();
-
 
     self.elem.dialog("open");
   };
