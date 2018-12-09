@@ -60,6 +60,7 @@ Note that a single sign on login manager might log you in right after having you
 ---++ Change History
 
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+| 09 Dec 2018 | improved algorithm |
 | 07 Dec 2018 | make it work on multiple tabs |
 | 29 Nov 2018 | initial release |
 

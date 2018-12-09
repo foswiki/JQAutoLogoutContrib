@@ -29,7 +29,7 @@ sub new {
   my $this = bless(
     $class->SUPER::new(
       name => 'JQAutoLogoutContrib',
-      version => '1.01',
+      version => '1.02',
       author => 'Michael Daum',
       homepage => 'http://foswiki.org/Extensions/JQAutoLogoutContrib',
       javascript => ['autologout.js'],

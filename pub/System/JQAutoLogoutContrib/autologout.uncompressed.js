@@ -1,5 +1,5 @@
 /*
- * AutoLogout 1.01
+ * AutoLogout 1.02
  *
  * Copyright (c) 2018 Michael Daum https://michaeldaumconsulting.com
  *
@@ -11,7 +11,7 @@
 "use strict";
 (function($) {
 
-  // Create the defaults once
+  // create the defaults once
   var defaults = {
     events: "click mousemove scroll keypress",
     enableIf: null,
@@ -19,10 +19,10 @@
     idleTimeout: 900, // 15 minutes
     countdown: 10,
     logoutUrl: null,
-    localStorageId: "jqAutoLogout.startTime"
+    localStorageId: "jqAutoLogout.activityTime"
   };
 
-  // The actual plugin constructor
+  // the actual plugin constructor
   function AutoLogout(elem, opts) {
     var self = this;
 
@@ -38,6 +38,7 @@
     }
   }
 
+  // init events and timers
   AutoLogout.prototype.init = function () {
     var self = this;
 
@@ -45,17 +46,15 @@
       if (self.elem.dialog("isOpen")) {
         self.elem.dialog("close");
       }
-      if (self.idleTimer) {
-        self.startTimer();
-      }
-    });
-
-    self.elem.on("dialogclose", function() {
-      self.startTimer();
+      self.setActivityTime();
     });
 
     self.elem.on("dialogopen", function() {
       self.tickCountdown(self.opts.countdown);
+    });
+
+    self.elem.on("dialogclose", function() {
+      self.startTimer();
     });
 
     //console.log("opts=",self.opts);
@@ -63,6 +62,7 @@
     self.startTimer();
   };
 
+  // test whether autologout is enabled
   AutoLogout.prototype.isEnabled = function() {
     var self = this;
 
@@ -81,10 +81,87 @@
     return true;
   };
 
+  // start the timer after which the dialog will pop up
+  AutoLogout.prototype.startTimer = function () {
+    var self = this;
+
+    //console.log("start timer");
+
+    // make sure a previous one is cleared 
+    self.stopTimer();
+
+    if (self.isEnabled()) { 
+      self.idleTimer = setTimeout(function() {
+        if (self.isIdle()) {
+          self.openDialog();
+        } else {
+          self.startTimer();
+        }
+      }, self.opts.idleTimeout * 1000);
+    }
+  };
+
+  // stop idle timer started by startTimer()
+  AutoLogout.prototype.stopTimer = function () {
+    var self = this;
+
+    if (self.idleTimer) {
+      clearTimeout(self.idleTimer);
+      self.idleTimer = null;
+    }
+  };
+
+
+  // record activity in localStorage to be available in all tab of this domain
+  AutoLogout.prototype.setActivityTime = function() {
+    var self = this;
+
+    localStorage.setItem(self.opts.localStorageId, Date.now());
+  };
+
+  // get time of last activity in epoch seconds
+  AutoLogout.prototype.getActivityTime = function() {
+    var self = this, activityTime;
+
+    activityTime = localStorage.getItem(self.opts.localStorageId);
+
+    if (typeof(activityTime) !== 'string') {
+      //console.log("no idle activity time");
+      return 0;
+    }
+
+    return parseInt(activityTime, 10);
+  };
+
+  // get time in seconds since the last activity was recorded
+  AutoLogout.prototype.getIdleTime = function() {
+    var self = this;
+
+    return Math.floor((Date.now() - self.getActivityTime()) / 1000);
+  };
+
+  // return true when the last activity was later than the given idle time
+  AutoLogout.prototype.isIdle = function() {
+    var self = this;
+
+    return self.getIdleTime() >= self.opts.idleTimeout;
+  };
+
+
+  // open the dialog and start the ticker
+  AutoLogout.prototype.openDialog = function() {
+    var self = this;
+
+    self.stopTimer();
+
+    self.elem.dialog("open");
+  };
+
+  // ticker when displaying the dialog
   AutoLogout.prototype.tickCountdown = function (val) {
     var self = this;
 
-    if (self.idleTimer || self.getIdleTime() < self.opts.idleTimeout) {
+    if (self.idleTimer || !self.isIdle()) {
       //console.log("countdown aborted");
       self.elem.dialog("close");
       return; // abort
@@ -100,78 +177,16 @@
     }
   };
 
-  AutoLogout.prototype.startTimer = function () {
-    var self = this;
-
-    //console.log("start timer");
-
-    self.stopTimer();
-
-    if (self.isEnabled()) { 
-
-      // remember when this timer started
-      self.setStartTime();
-
-      self.idleTimer = setTimeout(function() {
-        if (self.getIdleTime() >= self.opts.idleTimeout) {
-          self.openDialog();
-        } else {
-          self.startTimer();
-        }
-      }, self.opts.idleTimeout * 1000);
-    }
-  };
-
-  AutoLogout.prototype.setStartTime = function() {
-    var self = this;
-
-    localStorage.setItem(self.opts.localStorageId, Date.now());
-  };
-
-  AutoLogout.prototype.getStartTime = function() {
-    var self = this, startTime;
-
-    startTime = localStorage.getItem(self.opts.localStorageId);
-
-    if (typeof(startTime) !== 'string') {
-      //console.log("no idle start time");
-      return 0;
-    }
-
-    return parseInt(startTime, 10)
-  };
-
-  AutoLogout.prototype.getIdleTime = function() {
-    var self = this;
-
-    return Math.floor((Date.now() - self.getStartTime()) / 1000);
-  };
-
-  AutoLogout.prototype.stopTimer = function () {
-    var self = this;
-
-    if (self.idleTimer) {
-      clearTimeout(self.idleTimer);
-      self.idleTimer = null;
-    }
-  };
-
+  // log the session out when the ticker finished
   AutoLogout.prototype.logout = function() {
     var self = this;
 
     //console.log("redirecting to ",self.opts.logoutUrl);
     window.location.href = self.opts.logoutUrl;
-    localStore.removeItem(self.opts.localStorageId);
+    localStorage.removeItem(self.opts.localStorageId);
   };
 
-  AutoLogout.prototype.openDialog = function() {
-    var self = this;
-
-    self.stopTimer();
-
-    self.elem.dialog("open");
-  };
-
+  // add plugin to jquery
   $.fn.autoLogout = function (opts) {
     return this.each(function () {
       if (!$.data(this, "AutoLogout")) {
@@ -180,6 +195,7 @@
     });
   };
 
+  // initializer of the autologout dialog
   $(function() {
     $(".jqAutoLogout:not(.jqAutoLogoutInited)").livequery(function() {
       $(this).addClass("jqAutoLogoutInited").autoLogout();
