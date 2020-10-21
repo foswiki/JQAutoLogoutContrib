@@ -1,10 +1,9 @@
 /*
- * AutoLogout 1.02
+ * AutoLogout 1.10
  *
- * Copyright (c) 2018 Michael Daum https://michaeldaumconsulting.com
+ * Copyright (c) 2018-2020 Michael Daum https://michaeldaumconsulting.com
  *
- * Licensed under GPL licenses:
- *   http://www.gnu.org/licenses/gpl.html
+ * Licensed under the GPL license http://www.gnu.org/licenses/gpl.html
  *
  */
 
@@ -197,10 +196,9 @@
 
   // initializer of the autologout dialog
   $(function() {
-    $(".jqAutoLogout:not(.jqAutoLogoutInited)").livequery(function() {
-      $(this).addClass("jqAutoLogoutInited").autoLogout();
+    $(".jqAutoLogout").livequery(function() {
+      $(this).autoLogout();
     });
   });
 
 })(jQuery);
-

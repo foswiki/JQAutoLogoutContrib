@@ -1,6 +1,6 @@
 # Extension for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# JQAutoLogoutContrib is Copyright (C) 2018 Michael Daum http://michaeldaumconsulting.com
+# JQAutoLogoutContrib is Copyright (C) 2018-2020 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -29,7 +29,7 @@ sub new {
   my $this = bless(
     $class->SUPER::new(
       name => 'JQAutoLogoutContrib',
-      version => '1.02',
+      version => '1.10',
       author => 'Michael Daum',
       homepage => 'http://foswiki.org/Extensions/JQAutoLogoutContrib',
       javascript => ['autologout.js'],

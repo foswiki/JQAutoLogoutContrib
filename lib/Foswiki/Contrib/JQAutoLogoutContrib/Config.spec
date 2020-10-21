@@ -1,7 +1,7 @@
 # ---+ Extensions
 # ---++ JQueryPlugin
 # ---+++ Extra plugins
-# **STRING**
+# **STRING EXPERT**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{AutoLogout}{Module} = 'Foswiki::Contrib::JQAutoLogoutContrib::Core';
 
 # **BOOLEAN**
