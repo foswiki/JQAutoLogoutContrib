@@ -1,6 +1,6 @@
 # Foswiki translation for Deutsch
 # Translators:
-# Foswiki:Main/MichaelDaum, 2018
+# Foswiki:Main/MichaelDaum
 msgid ""
 msgstr ""
 "Project-Id-Version: Foswiki $Id\n"

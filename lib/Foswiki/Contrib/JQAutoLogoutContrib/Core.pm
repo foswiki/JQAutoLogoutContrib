@@ -1,6 +1,6 @@
 # Extension for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# JQAutoLogoutContrib is Copyright (C) 2018-2020 Michael Daum http://michaeldaumconsulting.com
+# JQAutoLogoutContrib is Copyright (C) 2018-2024 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use Foswiki::Func ();
-
+use Foswiki::Contrib::JQAutoLogoutContrib();
 use Foswiki::Plugins::JQueryPlugin::Plugin ();
 our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
@@ -29,7 +29,7 @@ sub new {
   my $this = bless(
     $class->SUPER::new(
       name => 'JQAutoLogoutContrib',
-      version => '1.10',
+      version => $Foswiki::Contrib::JQAutoLogoutContrib::VERSION,
       author => 'Michael Daum',
       homepage => 'http://foswiki.org/Extensions/JQAutoLogoutContrib',
       javascript => ['autologout.js'],
@@ -53,7 +53,7 @@ sub init {
       Foswiki::Func::readTemplate("autologout");
     }
 
-    my $tmpl = Foswiki::Func::expandTemplate("autologout::dialog");
+    my $tmpl = Foswiki::Func::expandTemplate("autologout");
 
     Foswiki::Func::addToZone("body", "JQUERYPLUGIN::JQAUTOLOGOUTCONTRIB::DIALOG", $tmpl);
 }

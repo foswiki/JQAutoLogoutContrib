@@ -60,7 +60,8 @@ Note that a single sign on login manager might log you in right after having you
 ---++ Change History
 
 %TABLE{columnwidths="7em" tablewidth="100%"}%
-| 21 Apr 2020 | fix manifest |
+| 24 Jan 2024 | fixed use of =autologout= tmpl definition | 
+| 21 Apr 2020 | fixed manifest |
 | 09 Dec 2018 | improved algorithm |
 | 07 Dec 2018 | make it work on multiple tabs |
 | 29 Nov 2018 | initial release |
@@ -71,7 +72,7 @@ Note that a single sign on login manager might log you in right after having you
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/%25$ROOTMODULE%25"}%
-%META:FIELD{name="Copyright" title="Copyright" value="2018-2020, Michael Daum, All Rights Reserved"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2018-2024, Michael Daum, All Rights Reserved"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%

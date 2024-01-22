@@ -1,6 +1,6 @@
 # Extension for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# JQAutoLogoutContrib is Copyright (C) 2018-2020 Michael Daum http://michaeldaumconsulting.com
+# JQAutoLogoutContrib is Copyright (C) 2018-2024 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,11 +18,10 @@ package Foswiki::Contrib::JQAutoLogoutContrib;
 use strict;
 use warnings;
 
-use Foswiki::Func ();
-
-our $VERSION = '1.10';
-our $RELEASE = '21 Oct 2020';
+our $VERSION = '1.20';
+our $RELEASE = '%$RELEASE%';
 our $SHORTDESCRIPTION = 'Log out idle user after a certain period of time';
+our $LICENSECODE = '%$LICENSECODE%';
 our $NO_PREFS_IN_TOPIC = 1;
 
 1;

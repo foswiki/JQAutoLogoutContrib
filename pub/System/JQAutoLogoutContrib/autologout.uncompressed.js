@@ -1,7 +1,7 @@
 /*
- * AutoLogout 1.10
+ * AutoLogout 1.20
  *
- * Copyright (c) 2018-2020 Michael Daum https://michaeldaumconsulting.com
+ * Copyright (c) 2018-2024 Michael Daum https://michaeldaumconsulting.com
  *
  * Licensed under the GPL license http://www.gnu.org/licenses/gpl.html
  *
